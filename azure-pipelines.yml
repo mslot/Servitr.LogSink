@@ -34,6 +34,7 @@ stages:
       displayName: Publish to nuget feed
       pool:
         vmImage: 'Ubuntu-16.04'
+      environment: 'Internal Nuget Feed'
       strategy:
         runOnce:
           deploy:
