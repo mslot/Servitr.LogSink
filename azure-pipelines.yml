@@ -5,19 +5,40 @@ trigger:
   paths:
     include:
     - src/*
+stages:
+  - stage: Build
+    jobs:
+    - job:
+      displayName: Build and Publish
+      steps:
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'restore'
+          projects: '**/*.csproj'
 
-steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: pack
+          packDirectory: '$(build.artifactStagingDirectory)'
+          configuration: $(BuildConfiguration)
+          packagesToPack: 'src/Servitr.LogSink/*.csproj'
+          versioningScheme: off
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: pack
-    packDirectory: '$(build.artifactStagingDirectory)'
-    configuration: $(BuildConfiguration)
-    packagesToPack: 'src/Servitr.LogSink/*.csproj'
-    versioningScheme: off
+      - task: PublishBuildArtifacts@1
+  - stage: Publish
+    jobs:
 
-- task: PublishBuildArtifacts@1
+    - deployment: DeployToNugetFeed
+      displayName: Publish to nuget feed
+      pool:
+        vmImage: 'Ubuntu-16.04'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: DotNetCoreCLI@2
+              inputs:
+                command: 'push'
+                packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+                nuGetFeedType: 'internal'
+                publishVstsFeed: '$(TargetFeedId)'
