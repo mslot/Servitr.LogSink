@@ -26,6 +26,8 @@ stages:
 
       - task: PublishBuildArtifacts@1
   - stage: Publish
+    variables:
+    - group: NugetFeed
     jobs:
 
     - deployment: DeployToNugetFeed
