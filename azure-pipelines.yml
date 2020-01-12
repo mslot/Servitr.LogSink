@@ -23,8 +23,11 @@ stages:
           configuration: $(BuildConfiguration)
           packagesToPack: 'src/Servitr.LogSink/*.csproj'
           versioningScheme: off
-
-      - task: PublishBuildArtifacts@1
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(Pipeline.Workspace)'
+          artifact: 'nuget'
+          publishLocation: 'pipeline'
   - stage: Publish
     variables:
     - group: NugetFeed
@@ -39,6 +42,11 @@ stages:
         runOnce:
           deploy:
             steps:
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                buildType: 'current'
+                artifactName: 'nuget'
+                targetPath: '$(Pipeline.Workspace)'
             - task: DotNetCoreCLI@2
               inputs:
                 command: 'push'
