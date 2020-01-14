@@ -23,7 +23,7 @@ stages:
       - task: DotNetCoreCLI@2
         inputs:
           command: 'pack'
-          packagesToPack: 'src/Servitr.LogSink/*.csproj'
+          packagesToPack: 'src/**/*.csproj'
           packDirectory: '$(build.artifactStagingDirectory)'
           includesymbols: false
           versioningScheme: 'byEnvVar'
