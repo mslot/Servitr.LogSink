@@ -23,21 +23,20 @@ stages:
       - task: DotNetCoreCLI@2
         inputs:
           command: 'pack'
-          packagesToPack: 'src/Servitr.LogSink/*.csproj'
+          packagesToPack: 'src/**/*.csproj'
           packDirectory: '$(build.artifactStagingDirectory)'
-          includesymbols: true
+          includesymbols: false
           versioningScheme: 'byEnvVar'
           versionEnvVar: 'GitVersion.SemVer'
       - task: PublishPipelineArtifact@1
         inputs:
-          targetPath: '$(Pipeline.Workspace)'
+          targetPath: '$(build.artifactStagingDirectory)'
           artifact: 'nuget'
           publishLocation: 'pipeline'
   - stage: Publish
     variables:
     - group: NugetFeed
     jobs:
-
     - deployment: DeployToNugetFeed
       displayName: Publish to nuget feed
       pool:
@@ -47,14 +46,11 @@ stages:
         runOnce:
           deploy:
             steps:
-            - task: DownloadPipelineArtifact@2
-              inputs:
-                buildType: 'current'
-                artifactName: 'nuget'
-                targetPath: '$(Pipeline.Workspace)'
+            - download: current
+              artifact: nuget
             - task: DotNetCoreCLI@2
               inputs:
                 command: 'push'
-                packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+                packagesToPush: '$(Pipeline.Workspace)/nuget/*.nupkg'
                 nuGetFeedType: 'internal'
                 publishVstsFeed: '$(TargetFeedId)'
