@@ -50,6 +50,6 @@ stages:
             - task: DotNetCoreCLI@2
               inputs:
                 command: 'push'
-                packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+                packagesToPush: '*.nupkg'
                 nuGetFeedType: 'internal'
                 publishVstsFeed: '$(TargetFeedId)'
