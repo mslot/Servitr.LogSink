@@ -11,6 +11,8 @@ namespace Servitr.LogSink
         private readonly ILoggerFactory _loggerFactory;
         private readonly IEventIdMapper _eventIdMapper;
 
+        //Should we tear out the logger factory and make our own factory so other frameworks than
+        //Application Insights could be used?
         public SimpleLogSink(
             IHostEnvironment env,
             ILoggerFactory loggerFactory,
