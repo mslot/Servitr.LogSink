@@ -18,11 +18,11 @@ stages:
 
       - task: DotNetCoreCLI@2
         inputs:
-          command: pack
-          packDirectory: '$(build.artifactStagingDirectory)'
-          configuration: $(BuildConfiguration)
+          command: 'pack'
           packagesToPack: 'src/Servitr.LogSink/*.csproj'
-          versioningScheme: off
+          packDirectory: '$(build.artifactStagingDirectory)'
+          includesymbols: true
+          versioningScheme: 'off'
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(Pipeline.Workspace)'
