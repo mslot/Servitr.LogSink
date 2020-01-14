@@ -30,14 +30,13 @@ stages:
           versionEnvVar: 'GitVersion.SemVer'
       - task: PublishPipelineArtifact@1
         inputs:
-          targetPath: '$(Pipeline.Workspace)'
+          targetPath: '$(build.artifactStagingDirectory)'
           artifact: 'nuget'
           publishLocation: 'pipeline'
   - stage: Publish
     variables:
     - group: NugetFeed
     jobs:
-
     - deployment: DeployToNugetFeed
       displayName: Publish to nuget feed
       pool:
@@ -47,9 +46,11 @@ stages:
         runOnce:
           deploy:
             steps:
+            - download: current
+              artifact: nuget
             - task: DotNetCoreCLI@2
               inputs:
                 command: 'push'
-                packagesToPush: '$(Pipeline.Workspace)/*.nupkg'
+                packagesToPush: '$(Pipeline.Workspace)/nuget/*.nupkg'
                 nuGetFeedType: 'internal'
                 publishVstsFeed: '$(TargetFeedId)'
