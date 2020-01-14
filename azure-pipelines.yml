@@ -11,6 +11,10 @@ stages:
     - job:
       displayName: Build and Publish
       steps:
+      - task: GitVersion@5
+        inputs:
+          runtime: 'core'
+          configFilePath: 'GitVersion.yml'
       - task: DotNetCoreCLI@2
         inputs:
           command: 'restore'
