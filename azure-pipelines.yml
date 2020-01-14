@@ -26,7 +26,8 @@ stages:
           packagesToPack: 'src/Servitr.LogSink/*.csproj'
           packDirectory: '$(build.artifactStagingDirectory)'
           includesymbols: true
-          versioningScheme: 'off'
+          versioningScheme: 'byEnvVar'
+          versionEnvVar: 'GitVersion.SemVer'
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(Pipeline.Workspace)'
