@@ -19,13 +19,17 @@ stages:
         inputs:
           command: 'restore'
           projects: '**/*.csproj'
-
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'build'
+          projects: '**/*.csproj'
+          arguments: '-c $(BuildConfiguration)'
       - task: DotNetCoreCLI@2
         inputs:
           command: 'pack'
           packagesToPack: 'src/**/*.csproj'
           packDirectory: '$(build.artifactStagingDirectory)'
-          includesymbols: false
+          nobuild: true
           versioningScheme: 'byEnvVar'
           versionEnvVar: 'GitVersion.SemVer'
       - task: PublishPipelineArtifact@1
