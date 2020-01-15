@@ -30,14 +30,18 @@ stages:
         inputs:
           command: 'build'
           projects: 'src/**/*.csproj'
-          arguments: '-o $(build.artifactStagingDirectory)'
+          arguments: '-o $(build.artifactStagingDirectory)/out'
           configuration: '$(buildConfiguration)'
           versioningScheme: byEnvVar
           versionEnvVar: 'GitVersion.SemVer'
-
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(build.artifactStagingDirectory)/out'
+          Contents: '*.nupkg'
+          TargetFolder: '$(build.artifactStagingDirectory)/final'
       - task: PublishPipelineArtifact@1
         inputs:
-          targetPath: '$(build.artifactStagingDirectory)'
+          targetPath: '$(build.artifactStagingDirectory)/final'
           artifact: 'nuget'
           publishLocation: 'pipeline'
   - stage: Publish
