@@ -30,15 +30,9 @@ stages:
         inputs:
           command: 'build'
           projects: 'src/**/*.csproj'
-      - task: DotNetCoreCLI@2
-        displayName: "Pack"
-        inputs:
-          command: 'pack'
-          packagesToPack: 'src/**/*.csproj'
-          packDirectory: '$(build.artifactStagingDirectory)'
-          nobuild: true
-          versioningScheme: 'byEnvVar'
+          versioningScheme: byEnvVar
           versionEnvVar: 'GitVersion.SemVer'
+
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(build.artifactStagingDirectory)'
