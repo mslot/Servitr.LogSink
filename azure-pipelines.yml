@@ -18,19 +18,12 @@ stages:
         inputs:
           runtime: 'core'
           configFilePath: 'GitVersion.yml'
-      - task: DotNetCoreCLI@2
-        displayName: "ProvisionBuildProjects"
-        inputs:
-          command: 'build'
-          projects: 'src/**/*.csproj'
-          arguments: '--configuration release  --no-cache'
 
       - task: DotNetCoreCLI@2
         inputs:
           command: 'pack'
           packagesToPack: 'src/**/*.csproj'
           packDirectory: '$(build.artifactStagingDirectory)'
-          nobuild: true
           versioningScheme: 'byEnvVar'
           versionEnvVar: 'GitVersion.SemVer'
       - task: PublishPipelineArtifact@1
