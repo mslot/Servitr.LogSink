@@ -1,3 +1,6 @@
+variables:
+  BuildConfiguration: Release
+  
 trigger:
   branches:
     include:
@@ -12,31 +15,38 @@ stages:
       displayName: Build and Publish
       steps:
       - task: GitVersion@5
+        displayName: "Git Version"
         inputs:
           runtime: 'core'
           configFilePath: 'GitVersion.yml'
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'restore'
-          projects: '**/*.csproj'
 
       - task: DotNetCoreCLI@2
+        displayName: "Restore"
         inputs:
-          command: 'pack'
-          packagesToPack: 'src/Servitr.LogSink/*.csproj'
-          packDirectory: '$(build.artifactStagingDirectory)'
-          includesymbols: true
-          versioningScheme: 'off'
+          command: 'restore'
+          projects: 'src/**/*.csproj'
+          feedsToUse: 'select'
+      - task: DotNetCoreCLI@2
+        displayName: "Build"
+        inputs:
+          command: 'build'
+          projects: 'src/**/*.csproj'
+          arguments: '-o $(build.artifactStagingDirectory)/out /p:Version=$(GitVersion.SemVer)'
+          configuration: '$(buildConfiguration)'
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(build.artifactStagingDirectory)/out'
+          Contents: '*.nupkg'
+          TargetFolder: '$(build.artifactStagingDirectory)/final'
       - task: PublishPipelineArtifact@1
         inputs:
-          targetPath: '$(Pipeline.Workspace)'
+          targetPath: '$(build.artifactStagingDirectory)/final'
           artifact: 'nuget'
           publishLocation: 'pipeline'
   - stage: Publish
     variables:
     - group: NugetFeed
     jobs:
-
     - deployment: DeployToNugetFeed
       displayName: Publish to nuget feed
       pool:
@@ -46,14 +56,12 @@ stages:
         runOnce:
           deploy:
             steps:
-            - task: DownloadPipelineArtifact@2
-              inputs:
-                buildType: 'current'
-                artifactName: 'nuget'
-                targetPath: '$(Pipeline.Workspace)'
+            - download: current
+              artifact: nuget
             - task: DotNetCoreCLI@2
+              displayName: "Push"
               inputs:
                 command: 'push'
-                packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+                packagesToPush: '$(Pipeline.Workspace)/nuget/*.nupkg'
                 nuGetFeedType: 'internal'
                 publishVstsFeed: '$(TargetFeedId)'
