@@ -33,7 +33,6 @@ stages:
           projects: 'src/**/*.csproj'
           arguments: '-o $(build.artifactStagingDirectory)/out /p:Version=$(GitVersion.SemVer)'
           configuration: '$(buildConfiguration)'
-
       - task: CopyFiles@2
         inputs:
           SourceFolder: '$(build.artifactStagingDirectory)/out'
