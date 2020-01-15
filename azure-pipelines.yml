@@ -30,6 +30,8 @@ stages:
         inputs:
           command: 'build'
           projects: 'src/**/*.csproj'
+          arguments: '-o $(build.artifactStagingDirectory)'
+          configuration: '$(buildConfiguration)'
           versioningScheme: byEnvVar
           versionEnvVar: 'GitVersion.SemVer'
 
