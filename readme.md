@@ -5,4 +5,4 @@ This project is intended to be used as an enchancment to logging. I want to to b
 This project is using application insights, but other logging sources could be used. Please note that application insights has no reserved event id, so I start my count relative high when classifing exceptions, 6000.
 
 # Documentation
-Documentation and examples can be found [here](https://logsink.servitr.io)
+Documentation and examples can be found [here](https://logsink.servitr.io).
