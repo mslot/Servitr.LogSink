@@ -20,15 +20,12 @@ stages:
           configFilePath: 'GitVersion.yml'
       - task: DotNetCoreCLI@2
         inputs:
-          command: 'restore'
-          projects: '**/*.csproj'         
-      - task: DotNetCoreCLI@2
-        inputs:
           command: 'pack'
           packagesToPack: 'src/**/*.csproj'
           packDirectory: '$(build.artifactStagingDirectory)'
           versioningScheme: 'byEnvVar'
           versionEnvVar: 'GitVersion.SemVer'
+          verbosityPack: 'Normal'
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(build.artifactStagingDirectory)'
