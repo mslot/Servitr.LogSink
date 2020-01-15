@@ -18,7 +18,11 @@ stages:
         inputs:
           runtime: 'core'
           configFilePath: 'GitVersion.yml'
-
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'restore'
+          projects: 'src/**/*.csproj'
+          feedsToUse: 'select'
       - task: DotNetCoreCLI@2
         inputs:
           command: 'pack'
