@@ -1,3 +1,6 @@
+variables:
+  BuildConfiguration: Release
+  
 trigger:
   branches:
     include:
@@ -12,25 +15,32 @@ stages:
       displayName: Build and Publish
       steps:
       - task: GitVersion@5
+        displayName: "Git Version"
         inputs:
           runtime: 'core'
           configFilePath: 'GitVersion.yml'
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'restore'
-          projects: '**/*.csproj'
 
       - task: DotNetCoreCLI@2
+        displayName: "Restore"
         inputs:
-          command: 'pack'
-          packagesToPack: 'src/**/*.csproj'
-          packDirectory: '$(build.artifactStagingDirectory)'
-          includesymbols: false
-          versioningScheme: 'byEnvVar'
-          versionEnvVar: 'GitVersion.SemVer'
+          command: 'restore'
+          projects: 'src/**/*.csproj'
+          feedsToUse: 'select'
+      - task: DotNetCoreCLI@2
+        displayName: "Build"
+        inputs:
+          command: 'build'
+          projects: 'src/**/*.csproj'
+          arguments: '-o $(build.artifactStagingDirectory)/out /p:Version=$(GitVersion.SemVer)'
+          configuration: '$(buildConfiguration)'
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(build.artifactStagingDirectory)/out'
+          Contents: '*.nupkg'
+          TargetFolder: '$(build.artifactStagingDirectory)/final'
       - task: PublishPipelineArtifact@1
         inputs:
-          targetPath: '$(build.artifactStagingDirectory)'
+          targetPath: '$(build.artifactStagingDirectory)/final'
           artifact: 'nuget'
           publishLocation: 'pipeline'
   - stage: Publish
@@ -49,6 +59,7 @@ stages:
             - download: current
               artifact: nuget
             - task: DotNetCoreCLI@2
+              displayName: "Push"
               inputs:
                 command: 'push'
                 packagesToPush: '$(Pipeline.Workspace)/nuget/*.nupkg'
