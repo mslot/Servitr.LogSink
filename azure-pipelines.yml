@@ -23,7 +23,7 @@ stages:
         inputs:
           command: 'build'
           projects: '**/*.csproj'
-          arguments: '-c $(Build.Configuration)'
+          arguments: '--configuration $(BuildConfiguration)'
       - task: DotNetCoreCLI@2
         inputs:
           command: 'pack'
