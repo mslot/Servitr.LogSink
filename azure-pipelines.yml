@@ -15,19 +15,28 @@ stages:
       displayName: Build and Publish
       steps:
       - task: GitVersion@5
+        displayName: "Git Version"
         inputs:
           runtime: 'core'
           configFilePath: 'GitVersion.yml'
       - task: DotNetCoreCLI@2
+        displayName: "Restore"
         inputs:
           command: 'restore'
           projects: 'src/**/*.csproj'
           feedsToUse: 'select'
       - task: DotNetCoreCLI@2
+        displayName: "Build"
+        inputs:
+          command: 'build'
+          projects: 'src/**/*.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: "Pack"
         inputs:
           command: 'pack'
           packagesToPack: 'src/**/*.csproj'
           packDirectory: '$(build.artifactStagingDirectory)'
+          nobuild: true
           versioningScheme: 'byEnvVar'
           versionEnvVar: 'GitVersion.SemVer'
       - task: PublishPipelineArtifact@1
@@ -51,6 +60,7 @@ stages:
             - download: current
               artifact: nuget
             - task: DotNetCoreCLI@2
+              displayName: "Push"
               inputs:
                 command: 'push'
                 packagesToPush: '$(Pipeline.Workspace)/nuget/*.nupkg'
