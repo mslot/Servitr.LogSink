@@ -19,6 +19,11 @@ stages:
         inputs:
           runtime: 'core'
           configFilePath: 'GitVersion.yml'
+      - script: echo %Action%%BuildVersion%
+        displayName: 'Set build version'
+        env:
+          Action: '##vso[build.updatebuildnumber]'
+          BuildVersion: $(GitVersion.SemVer)
       - task: DotNetCoreCLI@2
         displayName: "Restore"
         inputs:
