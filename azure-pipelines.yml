@@ -34,11 +34,13 @@ stages:
           arguments: '-o $(build.artifactStagingDirectory)/out /p:Version=$(GitVersion.SemVer)'
           configuration: '$(BuildConfiguration)'
       - task: CopyFiles@2
+        displayName: 'Copy nuget.config'
         inputs:
-          SourceFolder: 'src'
+          SourceFolder: '$(System.DefaultWorkingDirectory)'
           Contents: 'NuGet.config'
           TargetFolder: '$(build.artifactStagingDirectory)/final'
       - task: CopyFiles@2
+        displayName: 'Copy nuget packages'
         inputs:
           SourceFolder: '$(build.artifactStagingDirectory)/out'
           Contents: '*.nupkg'
