@@ -93,13 +93,5 @@ stages:
             steps:
             - download: current
               artifact: nuget
-            - task: DotNetCoreCLI@2
-              displayName: "Push"
-              inputs:
-                command: 'push'
-                packagesToPush: '$(Pipeline.Workspace)/nuget/*.nupkg'
-                selectOrConfig: 'config'
-                nuGetFeedType: 'external'
-                arguments: '--source github'
-                publishFeedCredentials: 'github nuget feed'
-                nugetConfigPath: '$(Pipeline.Workspace)/nuget/NuGet.config'
+            - script: |
+                dotnet nuget push "$(Pipeline.Workspace)/nuget/*.nupkg" --source "github"
