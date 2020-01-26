@@ -81,7 +81,7 @@ stages:
     - group: ReleaseNugetFeed
     jobs:
     - deployment: DeployToReleaseNugetFeed
-      displayName: Publish to beta nuget feed
+      displayName: Publish to release nuget feed
       pool:
         vmImage: 'Ubuntu-16.04'
       environment: 'Release Nuget Feed'

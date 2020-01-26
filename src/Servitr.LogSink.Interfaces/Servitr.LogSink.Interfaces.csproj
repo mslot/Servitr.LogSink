@@ -10,5 +10,6 @@
     <Title>Servitr.LogSink.Interfaces</Title>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Interfaces for Servitr.LogSink. Use these to make your own implementations.</Description>
+    <RepositoryUrl>https://github.com/mslot/Servitr.LogSink</RepositoryUrl>
   </PropertyGroup>
 </Project>

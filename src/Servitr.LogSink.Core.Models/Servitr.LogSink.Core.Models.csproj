@@ -10,6 +10,7 @@
     <Title>Servitr.LogSink.Core.Models</Title>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Models for Servitr.LogSink</Description>
+    <RepositoryUrl>https://github.com/mslot/Servitr.LogSink</RepositoryUrl>
   </PropertyGroup>
   
   <ItemGroup>
