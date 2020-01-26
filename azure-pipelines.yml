@@ -35,6 +35,11 @@ stages:
           configuration: '$(BuildConfiguration)'
       - task: CopyFiles@2
         inputs:
+          SourceFolder: 'src'
+          Contents: 'NuGet.config'
+          TargetFolder: '$(build.artifactStagingDirectory)/final'
+      - task: CopyFiles@2
+        inputs:
           SourceFolder: '$(build.artifactStagingDirectory)/out'
           Contents: '*.nupkg'
           TargetFolder: '$(build.artifactStagingDirectory)/final'
@@ -92,4 +97,4 @@ stages:
                 selectOrConfig: 'config'
                 nuGetFeedType: 'external'
                 arguments: '--source github'
-                nugetConfigPath: '$(System.DefaultWorkingDirectory)/NuGet.config'
+                nugetConfigPath: '$(Pipeline.Workspace)/nuget/NuGet.config'
