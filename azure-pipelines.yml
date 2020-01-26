@@ -10,6 +10,8 @@ trigger:
     - src/*
 stages:
   - stage: Build
+    variables:
+    - group: ReleaseNugetFeed
     jobs:
     - job:
       displayName: Build and Publish
