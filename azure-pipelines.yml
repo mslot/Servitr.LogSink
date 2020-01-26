@@ -99,5 +99,5 @@ stages:
                 selectOrConfig: 'config'
                 nuGetFeedType: 'external'
                 arguments: '--source github'
-                publishFeedCredentials: '$(NugetFeed.ServiceConnection.Name)'
+                publishFeedCredentials: $(NugetFeed.ServiceConnection.Name)
                 nugetConfigPath: '$(Pipeline.Workspace)/nuget/NuGet.config'
