@@ -32,7 +32,12 @@ stages:
           command: 'build'
           projects: 'src/**/*.csproj'
           arguments: '-o $(build.artifactStagingDirectory)/out /p:Version=$(GitVersion.SemVer)'
-          configuration: '$(buildConfiguration)'
+          configuration: '$(BuildConfiguration)'
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: 'src'
+          Contents: 'NuGet.config'
+          TargetFolder: '$(build.artifactStagingDirectory)/final'
       - task: CopyFiles@2
         inputs:
           SourceFolder: '$(build.artifactStagingDirectory)/out'
@@ -43,15 +48,16 @@ stages:
           targetPath: '$(build.artifactStagingDirectory)/final'
           artifact: 'nuget'
           publishLocation: 'pipeline'
-  - stage: Publish
+  - stage: PublishBetaFeed
+    displayName: 'Publish to beta feed'
     variables:
-    - group: NugetFeed
+    - group: BetaNugetFeed
     jobs:
-    - deployment: DeployToNugetFeed
-      displayName: Publish to nuget feed
+    - deployment: DeployToBetaNugetFeed
+      displayName: Publish to beta nuget feed
       pool:
         vmImage: 'Ubuntu-16.04'
-      environment: 'Internal Nuget Feed'
+      environment: 'Beta Nuget Feed'
       strategy:
         runOnce:
           deploy:
@@ -65,3 +71,30 @@ stages:
                 packagesToPush: '$(Pipeline.Workspace)/nuget/*.nupkg'
                 nuGetFeedType: 'internal'
                 publishVstsFeed: '$(TargetFeedId)'
+
+
+  - stage: PublishReleaseFeed
+    displayName: 'Publish to release feed'
+    variables:
+    - group: ReleaseNugetFeed
+    jobs:
+    - deployment: DeployToReleaseNugetFeed
+      displayName: Publish to beta nuget feed
+      pool:
+        vmImage: 'Ubuntu-16.04'
+      environment: 'Release Nuget Feed'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - download: current
+              artifact: nuget
+            - task: DotNetCoreCLI@2
+              displayName: "Push"
+              inputs:
+                command: 'push'
+                packagesToPush: '$(Pipeline.Workspace)/nuget/*.nupkg'
+                selectOrConfig: 'config'
+                nuGetFeedType: 'external'
+                arguments: '--source github'
+                nugetConfigPath: '$(Pipeline.Workspace)/nuget/NuGet.config'
