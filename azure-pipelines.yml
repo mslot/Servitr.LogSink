@@ -102,9 +102,7 @@ stages:
                 keepToken: false
                 tokenPrefix: '%'
                 tokenSuffix: '%'
-            - task: NuGetAuthenticate@0
-              inputs:
-                nuGetServiceConnections: 'github nuget feed'
+                
             - script: |
-                dotnet nuget push "*.nupkg" --source "github"
+                dotnet nuget push "*.nupkg" --source "github" --api-key "github nuget feed"
               workingDirectory: '$(Pipeline.Workspace)/nuget'
