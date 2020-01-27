@@ -93,12 +93,16 @@ stages:
             steps:
             - download: current
               artifact: nuget
-            - task: NuGetAuthenticate@0
+            - task: replacetokens@3
               inputs:
-                nuGetServiceConnections: 'github nuget feed'
+                rootDirectory: '$(Pipeline.Workspace)'
+                targetFiles: '**/*.config'
+                encoding: 'auto'
+                writeBOM: true
+                actionOnMissing: 'warn'
+                keepToken: false
+                tokenPrefix: '%'
+                tokenSuffix: '%'
             - script: |
-                echo $(NugetFeed.Owner)
-                echo $(NugetFeed.Password)
-                echo $(NugetFeed.Username)
                 dotnet nuget push "*.nupkg" --source "github"
               workingDirectory: '$(Pipeline.Workspace)/nuget'
