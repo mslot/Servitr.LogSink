@@ -9,7 +9,7 @@ I have two nuget feeds:
 
 I haven't yet set up a seperate account for my nuget packages, so they are going to be located on my private account on github for now.
 
-_PLEASE_ note that the 0.1.0 release is a true experimental that's only purpose is to create a proper release setup. Version 0.2.0 will be true beta release that you can use. I still need to do some logic rewriting in the SimpleLogSink (the LogInformation and LogError methods).
+_PLEASE_ note that the 0.1.0 release is a true experimental release that's only purpose is to create a proper release setup. Version 0.2.0 will be true beta release that you can use. I still need to do some logic rewriting in the SimpleLogSink (the LogInformation and LogError methods).
 
 # Application Insights
 This project is using application insights, but other logging sources could be used. Please note that application insights has no reserved event id, so I start my count relative high when classifing exceptions, 6000.
