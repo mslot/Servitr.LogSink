@@ -60,7 +60,7 @@ stages:
     - deployment: DeployToBetaNugetFeed
       displayName: Publish to beta nuget feed
       pool:
-        vmImage: 'Ubuntu-16.04'
+        vmImage: 'ubuntu-latest'
       environment: 'Beta Nuget Feed'
       strategy:
         runOnce:
@@ -84,7 +84,7 @@ stages:
     - deployment: DeployToReleaseNugetFeed
       displayName: Publish to release nuget feed
       pool:
-        vmImage: 'Ubuntu-16.04'
+        vmImage: 'ubuntu-latest'
       environment: 'Release Nuget Feed'
       strategy:
         runOnce:
