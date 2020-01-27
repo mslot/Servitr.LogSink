@@ -21,7 +21,6 @@ stages:
         inputs:
           runtime: 'core'
           configFilePath: 'GitVersion.yml'
-
       - task: DotNetCoreCLI@2
         displayName: "Restore"
         inputs:
@@ -52,6 +51,7 @@ stages:
           targetPath: '$(build.artifactStagingDirectory)/final'
           artifact: 'nuget'
           publishLocation: 'pipeline'
+
   - stage: PublishBetaFeed
     displayName: 'Publish to beta feed'
     variables:
@@ -101,8 +101,7 @@ stages:
                 actionOnMissing: 'warn'
                 keepToken: false
                 tokenPrefix: '%'
-                tokenSuffix: '%'
-                
+                tokenSuffix: '%'   
             - script: |
                 dotnet nuget push "*.nupkg" --source "github"
               workingDirectory: '$(Pipeline.Workspace)/nuget'
