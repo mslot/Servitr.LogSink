@@ -9,7 +9,11 @@
     <Company>Servitr</Company>
     <Title>Servitr.LogSink.Core.Models</Title>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Models for Servitr.LogSink</Description>
+    <Description>Models for Servitr.LogSink.
+    
+    PLEASE note that the 0.1.0 release is a true experimental that's only purpose is to create a proper release setup. Version 0.2.0 will be true beta release that you can use.
+</Description>
+    <RepositoryUrl>https://github.com/mslot/Servitr.LogSink</RepositoryUrl>
   </PropertyGroup>
   
   <ItemGroup>

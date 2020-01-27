@@ -10,6 +10,8 @@ trigger:
     - src/*
 stages:
   - stage: Build
+    variables:
+    - group: ReleaseNugetFeed
     jobs:
     - job:
       displayName: Build and Publish
@@ -19,7 +21,6 @@ stages:
         inputs:
           runtime: 'core'
           configFilePath: 'GitVersion.yml'
-
       - task: DotNetCoreCLI@2
         displayName: "Restore"
         inputs:
@@ -34,11 +35,13 @@ stages:
           arguments: '-o $(build.artifactStagingDirectory)/out /p:Version=$(GitVersion.SemVer)'
           configuration: '$(BuildConfiguration)'
       - task: CopyFiles@2
+        displayName: 'Copy nuget.config'
         inputs:
-          SourceFolder: 'src'
+          SourceFolder: '$(System.DefaultWorkingDirectory)'
           Contents: 'NuGet.config'
           TargetFolder: '$(build.artifactStagingDirectory)/final'
       - task: CopyFiles@2
+        displayName: 'Copy nuget packages'
         inputs:
           SourceFolder: '$(build.artifactStagingDirectory)/out'
           Contents: '*.nupkg'
@@ -48,6 +51,7 @@ stages:
           targetPath: '$(build.artifactStagingDirectory)/final'
           artifact: 'nuget'
           publishLocation: 'pipeline'
+
   - stage: PublishBetaFeed
     displayName: 'Publish to beta feed'
     variables:
@@ -56,7 +60,7 @@ stages:
     - deployment: DeployToBetaNugetFeed
       displayName: Publish to beta nuget feed
       pool:
-        vmImage: 'Ubuntu-16.04'
+        vmImage: 'ubuntu-latest'
       environment: 'Beta Nuget Feed'
       strategy:
         runOnce:
@@ -72,16 +76,15 @@ stages:
                 nuGetFeedType: 'internal'
                 publishVstsFeed: '$(TargetFeedId)'
 
-
   - stage: PublishReleaseFeed
     displayName: 'Publish to release feed'
     variables:
     - group: ReleaseNugetFeed
     jobs:
     - deployment: DeployToReleaseNugetFeed
-      displayName: Publish to beta nuget feed
+      displayName: Publish to release nuget feed
       pool:
-        vmImage: 'Ubuntu-16.04'
+        vmImage: 'ubuntu-latest'
       environment: 'Release Nuget Feed'
       strategy:
         runOnce:
@@ -89,13 +92,16 @@ stages:
             steps:
             - download: current
               artifact: nuget
-            - task: DotNetCoreCLI@2
-              displayName: "Push"
+            - task: replacetokens@3
               inputs:
-                command: 'push'
-                packagesToPush: '$(Pipeline.Workspace)/nuget/*.nupkg'
-                selectOrConfig: 'config'
-                nuGetFeedType: 'external'
-                arguments: '--source github'
-                publishFeedCredentials: '$(NugetFeed.ServiceConnection.Name)'
-                nugetConfigPath: '$(Pipeline.Workspace)/nuget/NuGet.config'
+                rootDirectory: '$(Pipeline.Workspace)'
+                targetFiles: '**/*.config'
+                encoding: 'auto'
+                writeBOM: true
+                actionOnMissing: 'warn'
+                keepToken: false
+                tokenPrefix: '%'
+                tokenSuffix: '%'   
+            - script: |
+                dotnet nuget push "*.nupkg" --source "github"
+              workingDirectory: '$(Pipeline.Workspace)/nuget'
