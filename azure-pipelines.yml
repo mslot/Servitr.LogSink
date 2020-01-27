@@ -94,5 +94,8 @@ stages:
             - download: current
               artifact: nuget
             - script: |
+                echo $(NugetFeed.Owner)
+                echo $(NugetFeed.Password)
+                echo $(NugetFeed.Username)
                 dotnet nuget push "*.nupkg" --source "github"
               workingDirectory: '$(Pipeline.Workspace)/nuget'
