@@ -36,6 +36,12 @@ stages:
           arguments: '-o $(build.artifactStagingDirectory)/out /p:Version=$(GitVersion.SemVer)'
           configuration: '$(BuildConfiguration)'
       - task: CopyFiles@2
+        displayName: 'Copy nuget.config'
+        inputs:
+          SourceFolder: '$(System.DefaultWorkingDirectory)'
+          Contents: 'NuGet.config'
+          TargetFolder: '$(build.artifactStagingDirectory)/final'
+      - task: CopyFiles@2
         displayName: 'Copy nuget packages'
         inputs:
           SourceFolder: '$(build.artifactStagingDirectory)/out'
@@ -86,18 +92,17 @@ stages:
             steps:
             - download: current
               artifact: nuget
-            # - task: replacetokens@3
-            #   inputs:
-            #     rootDirectory: '$(Pipeline.Workspace)'
-            #     targetFiles: '**/*.config'
-            #     encoding: 'auto'
-            #     writeBOM: true
-            #     actionOnMissing: 'warn'
-            #     keepToken: false
-            #     tokenPrefix: '%'
-            #     tokenSuffix: '%'
+            - task: replacetokens@3
+              inputs:
+                rootDirectory: '$(Pipeline.Workspace)'
+                targetFiles: '**/*.config'
+                encoding: 'auto'
+                writeBOM: true
+                actionOnMissing: 'warn'
+                keepToken: false
+                tokenPrefix: '%'
+                tokenSuffix: '%'
                 
             - script: |
-                nuget sources add -name "github" -Source https://nuget.pkg.github.com/$(NugetFeed.Owner)/index.json -Username $(NugetFeed.Username) -Password $(NugetFeed.Password)
                 dotnet nuget push "*.nupkg" --source "github"
               workingDirectory: '$(Pipeline.Workspace)/nuget'
