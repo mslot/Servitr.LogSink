@@ -93,10 +93,9 @@ stages:
             steps:
             - download: current
               artifact: nuget
-            - task: FileTransform@2
+            - task: NuGetAuthenticate@0
               inputs:
-                folderPath: '$(Pipeline.Workspace)/nuget'
-                xmlTargetFiles: 'NuGet.config'
+                nuGetServiceConnections: 'github nuget feed'
             - script: |
                 echo $(NugetFeed.Owner)
                 echo $(NugetFeed.Password)
