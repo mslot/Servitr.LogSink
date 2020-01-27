@@ -52,29 +52,29 @@ stages:
           targetPath: '$(build.artifactStagingDirectory)/final'
           artifact: 'nuget'
           publishLocation: 'pipeline'
-  - stage: PublishBetaFeed
-    displayName: 'Publish to beta feed'
-    variables:
-    - group: BetaNugetFeed
-    jobs:
-    - deployment: DeployToBetaNugetFeed
-      displayName: Publish to beta nuget feed
-      pool:
-        vmImage: 'ubuntu-latest'
-      environment: 'Beta Nuget Feed'
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - download: current
-              artifact: nuget
-            - task: DotNetCoreCLI@2
-              displayName: "Push"
-              inputs:
-                command: 'push'
-                packagesToPush: '$(Pipeline.Workspace)/nuget/*.nupkg'
-                nuGetFeedType: 'internal'
-                publishVstsFeed: '$(TargetFeedId)'
+  # - stage: PublishBetaFeed
+  #   displayName: 'Publish to beta feed'
+  #   variables:
+  #   - group: BetaNugetFeed
+  #   jobs:
+  #   - deployment: DeployToBetaNugetFeed
+  #     displayName: Publish to beta nuget feed
+  #     pool:
+  #       vmImage: 'ubuntu-latest'
+  #     environment: 'Beta Nuget Feed'
+  #     strategy:
+  #       runOnce:
+  #         deploy:
+  #           steps:
+  #           - download: current
+  #             artifact: nuget
+  #           - task: DotNetCoreCLI@2
+  #             displayName: "Push"
+  #             inputs:
+  #               command: 'push'
+  #               packagesToPush: '$(Pipeline.Workspace)/nuget/*.nupkg'
+  #               nuGetFeedType: 'internal'
+  #               publishVstsFeed: '$(TargetFeedId)'
 
   - stage: PublishReleaseFeed
     displayName: 'Publish to release feed'
