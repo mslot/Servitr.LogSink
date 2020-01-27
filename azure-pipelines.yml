@@ -84,7 +84,7 @@ stages:
     - deployment: DeployToReleaseNugetFeed
       displayName: Publish to release nuget feed
       pool:
-        vmImage: 'windows-latest'
+        vmImage: 'ubuntu-latest'
       environment: 'Release Nuget Feed'
       strategy:
         runOnce:
@@ -104,6 +104,5 @@ stages:
                 tokenSuffix: '%'
                 
             - script: |
-                nuget setapikey $(NugetFeed.Password) -source "https://nuget.pkg.github.com/$(NugetFeed.Owner)/index.json"
                 dotnet nuget push "*.nupkg" --source "github"
               workingDirectory: '$(Pipeline.Workspace)/nuget'
