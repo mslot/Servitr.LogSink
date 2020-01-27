@@ -76,7 +76,6 @@ stages:
                 nuGetFeedType: 'internal'
                 publishVstsFeed: '$(TargetFeedId)'
 
-
   - stage: PublishReleaseFeed
     displayName: 'Publish to release feed'
     variables:
