@@ -14,5 +14,7 @@ _PLEASE_ note that the 0.1.0 release is a true experimental release that's only 
 # Application Insights
 This project is using application insights, but other logging sources could be used. Please note that application insights has no reserved event id, so I start my count relative high when classifing exceptions, 6000.
 
+It also has a "SimpleLogSink" that uses the logger factory. This could easily be refactored out, but for now I am only focusing on how to make a clean API. 
+
 # More to come here
 When I get the last bits and pieces stitched together I am going to make some examples of use with references to how I use it with my blog.

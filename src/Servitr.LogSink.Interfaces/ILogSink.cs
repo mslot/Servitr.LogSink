@@ -4,7 +4,7 @@ namespace Servitr.LogSink.Interfaces
 {
     public interface ILogSink
     {
-        void LogInformation<T>(string className, string methodName, int area);
-        void LogError<T>(string className, string methodName, int area, Exception exception);
+        void LogInformation<T>(int area, string methodName);
+        void LogError<T>(int area, Exception exception, string methodName);
     }
 }
