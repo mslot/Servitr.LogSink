@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Servitr.LogSink
 {
@@ -11,8 +12,7 @@ namespace Servitr.LogSink
         private readonly ILoggerFactory _loggerFactory;
         private readonly IEventIdMapper _eventIdMapper;
 
-        //TODO: Should we tear out the logger factory and make our own factory so other frameworks than
-        //Application Insights could be used?
+        //TODO: Should we tear out the logger factory and make our own factory so other frameworks than Application Insights could be used?
         public SimpleLogSink(
             IHostEnvironment env,
             ILoggerFactory loggerFactory,
@@ -22,9 +22,10 @@ namespace Servitr.LogSink
             _loggerFactory = loggerFactory;
             _eventIdMapper = eventIdMapper;
         }
-        public void LogInformation<T>(string className, string methodName, int area)
+        public void LogInformation<T>(int area, [CallerMemberName] string methodName="")
         {
             var logger = CreateLogger<T>();
+            string className = typeof(T).Name;
             var eventClassification = _eventIdMapper.GetEventClassification(className, methodName, area, null);
 
             logger.LogInformation(
@@ -35,11 +36,12 @@ namespace Servitr.LogSink
                 _env.EnvironmentName);
         }
 
-        public void LogError<T>(string className, string methodName, int area, Exception exception)
+        public void LogError<T>(int area, Exception exception, [CallerMemberName] string methodName = "")
         {
             var logger = CreateLogger<T>();
+            string className = typeof(T).Name;
             var eventClassification = _eventIdMapper.GetEventClassification(className, methodName, area, exception);
-
+            
             logger.LogError(
                 new EventId(eventClassification.EventId, eventClassification.Name),
                 exception,
@@ -49,8 +51,7 @@ namespace Servitr.LogSink
                 _env.EnvironmentName);
         }
 
-        //TODO: I think this can be rethought so a new isn't created on every call, but for now this is fine since 
-        //the logic of this isn't pressured much 
+        //TODO: I think this can be rethought so a new isn't created on every call, but for now this is fine since the logic of this isn't pressured much 
         private ILogger<T> CreateLogger<T>()
         {
             return _loggerFactory.CreateLogger<T>();

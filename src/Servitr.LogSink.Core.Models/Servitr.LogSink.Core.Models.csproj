@@ -1,9 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup>
     <Authors>Martin Slot</Authors>
     <Company>Servitr</Company>
@@ -15,9 +14,8 @@ PLEASE note that the 0.1.0 release is a true experimental that's only purpose is
 </Description>
     <RepositoryUrl>https://github.com/mslot/Servitr.LogSink</RepositoryUrl>
   </PropertyGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\Servitr.LogSink.Interfaces\Servitr.LogSink.Interfaces.csproj" />
   </ItemGroup>
-
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

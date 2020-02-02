@@ -16,6 +16,10 @@ stages:
     - job:
       displayName: Build and Publish
       steps:
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'test'
+          projects: '**/*/*.Tests.Unit'
       - task: GitVersion@5
         displayName: "Git Version"
         inputs:
