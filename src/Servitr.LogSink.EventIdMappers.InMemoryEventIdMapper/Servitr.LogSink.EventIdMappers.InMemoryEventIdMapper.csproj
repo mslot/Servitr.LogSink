@@ -3,6 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+    <Authors>Martin Slot</Authors>
+    <Company>Servitr</Company>
+    <Title>Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper</Title>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>An in-memory implementation of the eventmapper.
+
+PLEASE note that the 0.1.0 release is a true experimental that's only purpose is to create a proper release setup. Version 0.2.0 will be true beta release that you can use.
+    </Description>
+    <RepositoryUrl>https://github.com/mslot/Servitr.LogSink</RepositoryUrl>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Servitr.LogSink.Core.Models\Servitr.LogSink.Core.Models.csproj" />
     <ProjectReference Include="..\Servitr.LogSink.Interfaces\Servitr.LogSink.Interfaces.csproj" />

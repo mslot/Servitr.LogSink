@@ -3,6 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup>
+    <Authors>Martin Slot</Authors>
+    <Company>Servitr</Company>
+    <Title>Servitr.LogSink.EventIdMappers</Title>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>A nuget that references all official event id mappers currently implemented.
+
+PLEASE note that the 0.1.0 release is a true experimental that's only purpose is to create a proper release setup. Version 0.2.0 will be true beta release that you can use.
+    </Description>
+    <RepositoryUrl>https://github.com/mslot/Servitr.LogSink</RepositoryUrl>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper\Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper.csproj" />
   </ItemGroup>
