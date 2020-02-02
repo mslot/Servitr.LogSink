@@ -15,7 +15,8 @@ namespace Servitr.LogSink.Tests.Unit.InMemoeryEventIdMapperClassTest
             public GetEventClassificationMethod()
             {
                 _mapper = new InMemoryEventIdMapper();
-                _mapper.AddClassification(className: "classname1", methodName: "methodname1", area: 1, exception: null, 6001, "eventname");
+                _mapper.AddClassification(className: "classname1", methodName: "methodname1", area: 1, exception: null, 6001, "eventname 1");
+                _mapper.AddClassification(className: "classname2", methodName: "methodname2", area: 1, exception: null, 6002, "eventname 2");
             }
             [Fact]
             public void SimpleCall()
@@ -29,7 +30,7 @@ namespace Servitr.LogSink.Tests.Unit.InMemoeryEventIdMapperClassTest
                 classification
                     .Name
                     .Should()
-                    .Be("eventname");
+                    .Be("eventname 1");
 
                 classification
                     .EventId
