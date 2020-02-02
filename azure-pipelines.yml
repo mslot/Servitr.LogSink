@@ -22,16 +22,6 @@ stages:
         inputs:
           runtime: 'core'
           configFilePath: 'GitVersion.yml'
-      - task: replacetokens@3
-        inputs:
-            rootDirectory: '$(Pipeline.Workspace)'
-            targetFiles: '**/*.config'
-            encoding: 'auto'
-            writeBOM: true
-            actionOnMissing: 'warn'
-            keepToken: false
-            tokenPrefix: '%'
-            tokenSuffix: '%'
       - script: |
           dotnet tool restore
           dotnet paket restore
@@ -50,7 +40,7 @@ stages:
       - task: CopyFiles@2
         displayName: 'Copy nuget.config'
         inputs:
-          SourceFolder: '$(System.DefaultWorkingDirectory)'
+          SourceFolder: '$(System.DefaultWorkingDirectory)/tools'
           Contents: 'NuGet.config'
           TargetFolder: '$(build.artifactStagingDirectory)/final'
       - task: CopyFiles@2
