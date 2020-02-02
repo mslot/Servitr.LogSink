@@ -16,21 +16,15 @@ stages:
     - job:
       displayName: Build and Publish
       steps:
-      - task: DotNetCoreCLI@2
-        inputs:
-          command: 'test'
-          projects: '**/*/*.Tests.Unit'
       - task: GitVersion@5
         displayName: "Git Version"
         inputs:
           runtime: 'core'
           configFilePath: 'GitVersion.yml'
-      - task: DotNetCoreCLI@2
-        displayName: "Restore"
-        inputs:
-          command: 'restore'
-          projects: 'src/**/*.csproj'
-          feedsToUse: 'select'
+      - script: |
+          dotnet tool restore
+          dotnet paket restore
+        displayName: 'Paket install and restore'
       - task: DotNetCoreCLI@2
         displayName: "Build"
         inputs:
@@ -38,6 +32,10 @@ stages:
           projects: 'src/**/*.csproj'
           arguments: '-o $(build.artifactStagingDirectory)/out /p:Version=$(GitVersion.SemVer)'
           configuration: '$(BuildConfiguration)'
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'test'
+          projects: '**/*/*.Tests.Unit'
       - task: CopyFiles@2
         displayName: 'Copy nuget.config'
         inputs:
