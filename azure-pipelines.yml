@@ -12,6 +12,7 @@ stages:
   - stage: Build
     variables:
     - group: ReleaseNugetFeed
+    - group: BetaNugetFeed
     jobs:
     - job:
       displayName: Build and Publish
@@ -21,6 +22,16 @@ stages:
         inputs:
           runtime: 'core'
           configFilePath: 'GitVersion.yml'
+      - task: replacetokens@3
+        inputs:
+            rootDirectory: '$(Pipeline.Workspace)'
+            targetFiles: '**/*.config'
+            encoding: 'auto'
+            writeBOM: true
+            actionOnMissing: 'warn'
+            keepToken: false
+            tokenPrefix: '%'
+            tokenSuffix: '%'
       - script: |
           dotnet tool restore
           dotnet paket restore
@@ -103,7 +114,7 @@ stages:
                 actionOnMissing: 'warn'
                 keepToken: false
                 tokenPrefix: '%'
-                tokenSuffix: '%'   
+                tokenSuffix: '%'
             - script: |
                 dotnet nuget push "*.nupkg" --source "github"
               workingDirectory: '$(Pipeline.Workspace)/nuget'
