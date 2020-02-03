@@ -22,10 +22,12 @@ stages:
         inputs:
           runtime: 'core'
           configFilePath: 'tools/config/GitVersion.yml'
-      - script: |
-          dotnet tool restore
-          dotnet paket restore
-        displayName: 'Paket install and restore'
+      - task: DotNetCoreCLI@2
+        displayName: "Restore"
+        inputs:
+          command: 'restore'
+          projects: 'src/**/*.csproj'
+          feedsToUse: 'select'
       - task: DotNetCoreCLI@2
         displayName: "Build"
         inputs:
