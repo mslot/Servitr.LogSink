@@ -7,5 +7,7 @@ namespace Servitr.LogSink.Core.Models
     {
         public int EventId { get; set; }
         public string Name { get; set; }
+        public string AreaName { get; set; }
+
     }
 }
