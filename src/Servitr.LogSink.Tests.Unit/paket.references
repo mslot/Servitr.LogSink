@@ -1,8 +1,0 @@
-FluentAssertions
-Microsoft.Extensions.DependencyInjection
-Microsoft.Extensions.Logging
-Microsoft.NET.Test.Sdk
-Moq
-xunit
-xunit.runner.visualstudio
-coverlet.collector

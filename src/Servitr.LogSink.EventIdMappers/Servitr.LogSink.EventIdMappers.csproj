@@ -17,5 +17,4 @@ PLEASE note that the 0.2.0 release is a true experimental that's only purpose is
   <ItemGroup>
     <ProjectReference Include="..\Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper\Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper.csproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

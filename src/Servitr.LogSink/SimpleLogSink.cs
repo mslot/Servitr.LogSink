@@ -22,7 +22,7 @@ namespace Servitr.LogSink
             _loggerFactory = loggerFactory;
             _eventIdMapper = eventIdMapper;
         }
-        public void LogInformation<T>(int area, [CallerMemberName] string methodName="")
+        public void LogInformation<T>(string logMessage, int area, [CallerMemberName] string methodName="", params object[] logParameters)
         {
             var logger = CreateLogger<T>();
             string className = typeof(T).Name;
@@ -30,10 +30,12 @@ namespace Servitr.LogSink
 
             logger.LogInformation(
                 new EventId(eventClassification.EventId, eventClassification.Name),
-                "[{className}.{methodName}]: was called in {environment}",
+                "[{environment}.{className}.{methodName}]: {message}",
+                _env.EnvironmentName,
                 className,
                 methodName,
-                _env.EnvironmentName);
+                logMessage,
+                logParameters);
         }
 
         public void LogError<T>(int area, Exception exception, [CallerMemberName] string methodName = "")

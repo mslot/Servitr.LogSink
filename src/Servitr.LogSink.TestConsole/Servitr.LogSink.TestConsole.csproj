@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FluentAssertions" Version="5.10.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.1" />
     <PackageReference Include="Moq" Version="4.13.1" />
-    <PackageReference Include="xunit" Version="2.4.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Servitr.LogSink.Core.Models\Servitr.LogSink.Core.Models.csproj" />
     <ProjectReference Include="..\Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper\Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper.csproj" />
+    <ProjectReference Include="..\Servitr.LogSink.EventIdMappers\Servitr.LogSink.EventIdMappers.csproj" />
     <ProjectReference Include="..\Servitr.LogSink.Interfaces\Servitr.LogSink.Interfaces.csproj" />
     <ProjectReference Include="..\Servitr.LogSink\Servitr.LogSink.csproj" />
   </ItemGroup>
