@@ -1,7 +1,4 @@
 ﻿using Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using FluentAssertions;
 
@@ -15,8 +12,8 @@ namespace Servitr.LogSink.Tests.Unit.InMemoeryEventIdMapperClassTest
             public GetEventClassificationMethod()
             {
                 _mapper = new InMemoryEventIdMapper();
-                _mapper.AddClassification(className: "classname1", methodName: "methodname1", area: 1, exception: null, 6001, "eventname 1");
-                _mapper.AddClassification(className: "classname2", methodName: "methodname2", area: 1, exception: null, 6002, "eventname 2");
+                _mapper.AddClassification(className: "classname1", methodName: "methodname1", areaId: 1, areaName:"area", exception: null, 6001, "eventname 1");
+                _mapper.AddClassification(className: "classname2", methodName: "methodname2", areaId: 1, areaName:"area", exception: null, 6002, "eventname 2");
             }
             [Fact]
             public void SimpleCall()

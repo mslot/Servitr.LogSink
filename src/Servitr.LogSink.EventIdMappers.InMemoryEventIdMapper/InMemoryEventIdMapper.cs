@@ -17,22 +17,23 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
             }
         }
 
-        public void AddClassification(string className, string methodName, int area, Exception exception, int eventId, string eventName)
+        public void AddClassification(string className, string methodName, int areaId, string areaName, Exception exception, int eventId, string eventName)
         {
-            string key = CalculateKey(className, methodName, area, exception);
+            string key = CalculateKey(className, methodName, areaId, exception);
             if (!_mapper.ContainsKey(key))
             {
-                IEventClassification classification = CreateClassification(className, methodName, area, exception, eventId, eventName);
+                IEventClassification classification = CreateClassification(className, methodName, areaId, areaName, exception, eventId, eventName);
                 _mapper.Add(key, classification);
             }
         }
 
-        private IEventClassification CreateClassification(string className, string methodName, int area, Exception exception, int eventId, string eventName)
+        private IEventClassification CreateClassification(string className, string methodName, int areaId, string areaName, Exception exception, int eventId, string eventName)
         {
             return new EventClassification
             {
                 EventId = eventId,
-                Name = eventName
+                Name = eventName,
+                AreaName = areaName
             };
         }
 
