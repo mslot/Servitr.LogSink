@@ -39,7 +39,7 @@ stages:
         displayName: 'Run unit tests'
         inputs:
           command: 'test'
-          projects: '**/*/*.Tests.Unit'
+          projects: '**/*/*.Tests.Unit.csproj'
       - task: CopyFiles@2
         displayName: 'Copy nuget.config'
         inputs:
