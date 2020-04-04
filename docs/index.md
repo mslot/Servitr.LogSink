@@ -1,5 +1,12 @@
 # Servitr.LogSink
-This project is intended to be used as an enchancment to logging. I want to to be able to search intelligently when logging to Application Insights. I want to be using event ids, and I want to be able to map exeptions to event ids and a thing i call areas. This project is an experiment out into the world of logging.
+This project is intended as a _pure experiment_ and is put into the world so i can test two things:
+
+1. How to create a yaml DevOps pipeline and nuget repos for library development (and how to use GitVersion properly when branching)
+2. To look more into a setup where I can log with event ids as a central part og an API, and what that potentially could lead to of gains
+
+This will _never_ be done, and _shouldn't_ be used for production grade applications. Right now the latest unstable release doesn't support other methods than `LogInformation`. If I have the time, I will expand it to also include `LogError`, `LogFatal` etc (even though this is pretty easy to do yourself when the API is becoming stable). For now the API is unstable, and I will only focus on getting `LogInformation` stable.
+
+But if you like this, please clone it, or create some pull requests, that provide further enhancement to the API. It could be fun to follow through.
 
 # Nuget feeds
 I have two nuget feeds:
@@ -9,12 +16,10 @@ I have two nuget feeds:
 
 I haven't yet set up a seperate account for my nuget packages, so they are going to be located on my private account on github for now.
 
-_PLEASE_ note that the 0.1.0 release is a true experimental release that's only purpose is to create a proper release setup. Version 0.2.0 will be true beta release that you can use. I still need to do some logic rewriting in the SimpleLogSink (the LogInformation and LogError methods).
-
 # Application Insights
 This project is using application insights, but other logging sources could be used. Please note that application insights has no reserved event id, so I start my count relative high when classifing exceptions, 6000.
 
 It also has a "SimpleLogSink" that uses the logger factory. This could easily be refactored out, but for now I am only focusing on how to make a clean API. 
 
-# More to come here
-When I get the last bits and pieces stitched together I am going to make some examples of use with references to how I use it with my blog.
+# Examples
+I will provide examples on use, and intended use, when the API has been stabilized. If you want examples, clone the repo and look on the unit tests, and the TestConsole.
