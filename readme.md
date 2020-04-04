@@ -13,3 +13,13 @@ This project is using application insights, but other logging sources could be u
 
 # Documentation
 Documentation and examples can be found [here](https://logsink.servitr.io).
+
+## Call convention
+The call convention might seem a bit more complicated and longer, but please have in mind that we have `EventId` in focus, so there is actually not that much difference:
+
+```csharp
+_logger.LogInformation(new EventId(1, "name"), "message {param1} {param2}", "this is parameter 1", "this is parameter 2");
+_logSink.LogInformation<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" });
+```
+
+We are talking about 13 characters. But it still pains my eyes that we have to apply `ConsoleService` and new'ing the log argument list (but this is needed if we are going to get the caller name).

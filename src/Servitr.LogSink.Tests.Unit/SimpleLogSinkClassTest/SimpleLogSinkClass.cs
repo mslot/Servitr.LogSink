@@ -64,12 +64,6 @@ namespace Servitr.LogSink.Tests.Unit.SimpleLogSinkClass
                     factory,
                     eventIdMapper);
             }
-
-            [Fact]
-            public void SimpleCall()
-            {
-                //_sink.LogError<LogErrorMethod>(EventTest.COMMON_AREA, new System.Exception("test"));
-            }
         }
     }
 }
