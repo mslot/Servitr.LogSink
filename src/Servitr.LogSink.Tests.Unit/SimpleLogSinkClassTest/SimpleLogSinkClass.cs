@@ -16,9 +16,6 @@ namespace Servitr.LogSink.Tests.Unit.SimpleLogSinkClass
 
             public LogInformationMethod()
             {
-                var envMock = new Mock<IHostEnvironment>();
-                envMock.Setup(env => env.EnvironmentName).Returns("UnitTest");
-
                 //I want a real factory
                 var serviceProvider = new ServiceCollection()
                                             .AddLogging()
@@ -29,7 +26,6 @@ namespace Servitr.LogSink.Tests.Unit.SimpleLogSinkClass
                 var eventIdMapper = new InMemoryEventIdMapper();
 
                 _sink = new SimpleLogSink(
-                    envMock.Object,
                     factory,
                     eventIdMapper);
             }
@@ -60,7 +56,6 @@ namespace Servitr.LogSink.Tests.Unit.SimpleLogSinkClass
                 var eventIdMapper = new InMemoryEventIdMapper();
 
                 _sink = new SimpleLogSink(
-                    envMock.Object,
                     factory,
                     eventIdMapper);
             }
