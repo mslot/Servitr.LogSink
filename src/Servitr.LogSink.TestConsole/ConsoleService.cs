@@ -23,7 +23,7 @@ namespace Servitr.LogSink.TestConsole
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Start");
-            _logSink.LogInformation("Log message {param1} {param2}", 0, "this is parameter 1", "this is parameter 2");
+            _logSink.LogInformation<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" });
             await Task.CompletedTask;
         }
 

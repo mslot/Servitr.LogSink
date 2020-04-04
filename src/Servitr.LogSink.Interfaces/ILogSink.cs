@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Servitr.LogSink.Interfaces
 {
     public interface ILogSink
     {
-        void LogInformation<T>(string logMessage,int area=0, params object[] logParameters);
+        void LogInformation<T>(string logMessage, object[] logParameters, int area=0, [CallerMemberName]string callerName="");
     }
 }

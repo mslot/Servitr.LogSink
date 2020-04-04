@@ -37,7 +37,7 @@ namespace Servitr.LogSink.Tests.Unit.SimpleLogSinkClass
             [Fact]
             public void SimpleCall()
             {
-                _sink.LogInformation<LogInformationMethod>("Log message {param1}{param2}", EventTest.COMMON_AREA, "this is parameter 1", "this is parameter 2");
+                _sink.LogInformation<LogInformationMethod>("Log message {param1}{param2}", new string[] { "this is parameter 1", "this is parameter 2" }, EventTest.COMMON_AREA);
             }
         }
 
@@ -68,7 +68,7 @@ namespace Servitr.LogSink.Tests.Unit.SimpleLogSinkClass
             [Fact]
             public void SimpleCall()
             {
-                _sink.LogError<LogErrorMethod>(EventTest.COMMON_AREA, new System.Exception("test"));
+                //_sink.LogError<LogErrorMethod>(EventTest.COMMON_AREA, new System.Exception("test"));
             }
         }
     }

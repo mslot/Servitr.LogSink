@@ -23,7 +23,7 @@ namespace Servitr.LogSink
             _loggerFactory = loggerFactory;
             _eventIdMapper = eventIdMapper;
         }
-        public void LogInformation<T>(string logMessage, int area, params object[] logParameters)
+        public void LogInformation<T>(string logMessage, object[] logParameters, int area=0, [CallerMemberName]string callerName="")
         {
             var logger = CreateLogger<T>();
             string className = typeof(T).Name;
