@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Servitr.LogSink.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,15 +27,15 @@ namespace Servitr.LogSink.TestConsole
             _logger.LogInformation("Start");
             _logger.LogInformation(new EventId(6001, "name"), "message {param1} {param2}", "this is parameter 1", "this is parameter 2");
             _logSink.LogInformation<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60);
-            
+
             try
             {
                 throw new Exception();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _logSink.LogInformation<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60);
-                _logSink.LogFatal<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60);
+                _logSink.LogInformation<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60, e);
+                _logSink.LogError<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60, e);
 
             }
 
