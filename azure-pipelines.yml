@@ -5,6 +5,8 @@ trigger:
   branches:
     include:
     - "*"
+    exclude:
+    - "master"
   paths:
     include:
     - src/*
