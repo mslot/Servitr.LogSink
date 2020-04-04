@@ -21,6 +21,7 @@ namespace Servitr.LogSink.TestConsole
 
             mapper.AddClassification(nameof(ConsoleService), "StartAsync", 60, "Test", null, 6001, "something_happened");
             mapper.AddClassification(nameof(ConsoleService), "StartAsync", 60, "Test", typeof(Exception), 6099, "exception_happened");
+            mapper.AddClassification(nameof(ConsoleService), "StartAsync", 60, "Test", typeof(OutOfMemoryException), 6099, "exception_happened");
         }
         public async Task StartAsync(CancellationToken cancellationToken)
         {

@@ -21,8 +21,64 @@ I haven't yet set up a seperate account for my nuget packages, so they are going
 # Application Insights
 This project is using application insights, but other logging sources could be used. Please note that application insights has no reserved event id numbers, personally I start my count relative high when classifing events: 6000. 
 
-# Examples
-I will provide examples on use, and intended use, when the API has been stabilized. If you want examples, clone the repo and look on the unit tests, and the TestConsole.
+# Example of use
+A compact example is included in the repo, in the `TestConsole.ConsoleService`
+
+```csharp
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Servitr.LogSink.Interfaces;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Servitr.LogSink.TestConsole
+{
+    public class ConsoleService : IHostedService
+    {
+        private readonly ILogger<ConsoleService> _logger;
+        private readonly ILogSink _logSink;
+
+        public ConsoleService(ILogger<ConsoleService> logger,
+            ILogSink logSink,
+            IEventIdMapper mapper)
+        {
+            _logger = logger;
+            _logSink = logSink;
+
+            mapper.AddClassification(nameof(ConsoleService), "StartAsync", 60, "Test", null, 6001, "something_happened");
+            mapper.AddClassification(nameof(ConsoleService), "StartAsync", 60, "Test", typeof(Exception), 6099, "exception_happened");
+            mapper.AddClassification(nameof(ConsoleService), "StartAsync", 60, "Test", typeof(OutOfMemoryException), 6099, "exception_happened");
+        }
+        public async Task StartAsync(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Start");
+            _logger.LogInformation(new EventId(6001, "name"), "message {param1} {param2}", "this is parameter 1", "this is parameter 2");
+            _logSink.LogInformation<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60);
+
+            try
+            {
+                throw new Exception();
+            }
+            catch (Exception e)
+            {
+                _logSink.LogInformation<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60, e);
+                _logSink.LogError<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60, e);
+
+            }
+
+            await Task.CompletedTask;
+        }
+
+        public async Task StopAsync(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Stop");
+            await Task.CompletedTask;
+        }
+    }
+}
+
+```
 
 ## Call convention
 The call convention might seem a bit more complicated and longer, but please have in mind that we have `EventId` in focus, so there is actually not that much difference:

@@ -13,6 +13,9 @@ The two most important take away with this project is:
 1. the baseline setup for library development, that you can use or be inspired by
 2. use event ids: it eases the debugging experience and bug hunting for the people doing that in their day to day job. It is much easier to search for event id 5000 (if that event is releated to errors writing a report) than to a random log message eg "give me events with messages containing words "report", and "writing"). Log messages can changes. Event id don't (or shouldn't)
 
+## Naming
+I needed a name, so I went with `LogSink`. Not the best, not the worst. Feel free to contact me if you have a better one, and I will consider.
+
 # Application Insights
 This project is using application insights, but other logging sources could be used. Please note that application insights has no reserved event id, so I start my count relative high when classifing exceptions, 6000.
 
@@ -28,7 +31,7 @@ traces
 And it wont (or shouldn't) affect if a developer changes the wording of a message. It is an id, and it will not change. I have seen it a lot in the past, where bug hunting is bound to knowing what a log message contains.
 
 # Documentation
-Documentation and examples can be found [here](https://logsink.servitr.io).
+Documentation and example can be found at [here](https://logsink.servitr.io).
 
 ## Call convention
 The call convention might seem a bit more complicated and longer, but please have in mind that we have `EventId` in focus, so there is actually not that much difference:
