@@ -10,7 +10,7 @@ But if you like this, please clone it, or create some pull requests, that provid
 
 The two most important take away with this project is:
 
-1. the baseline setup for library development, that you can use or be inspired by
+1. the baseline setup for library development, that you can use or be inspired by (read more about that [here](https://logsink.servitr.io))
 2. use event ids: it eases the debugging experience and bug hunting for the people doing that in their day to day job. It is much easier to search for event id 5000 (if that event is releated to errors writing a report) than to a random log message eg "give me events with messages containing words "report", and "writing"). Log messages can changes. Event id don't (or shouldn't)
 
 ## Naming
