@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,12 +6,16 @@
   <PropertyGroup>
     <Authors>Martin Slot</Authors>
     <Company>Servitr</Company>
-    <Title>Servitr.LogSink.Interfaces</Title>
+    <Title>Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper</Title>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Interfaces for Servitr.LogSink. Use these to make your own implementations.
+    <Description>An in-memory implementation of the eventmapper.
 
 PLEASE note that the 0.2.0 release is a true experimental that's only purpose is to create a proper release setup. Version 0.3.0 will be true beta release that you can use.
-</Description>
+    </Description>
     <RepositoryUrl>https://github.com/mslot/Servitr.LogSink</RepositoryUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Servitr.LogSink.Core.Models\Servitr.LogSink.Core.Models.csproj" />
+    <ProjectReference Include="..\Servitr.LogSink.Interfaces\Servitr.LogSink.Interfaces.csproj" />
+  </ItemGroup>
 </Project>

@@ -8,5 +8,6 @@ namespace Servitr.LogSink.Interfaces
     {
         int EventId { get; set; }
         string Name { get; set; }
+        string AreaName { get; set; }
     }
 }

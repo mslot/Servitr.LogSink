@@ -12,15 +12,16 @@ stages:
   - stage: Build
     variables:
     - group: ReleaseNugetFeed
+    - group: BetaNugetFeed
     jobs:
     - job:
-      displayName: Build and Publish
+      displayName: Build
       steps:
       - task: GitVersion@5
         displayName: "Git Version"
         inputs:
           runtime: 'core'
-          configFilePath: 'GitVersion.yml'
+          configFilePath: 'tools/config/GitVersion.yml'
       - task: DotNetCoreCLI@2
         displayName: "Restore"
         inputs:
@@ -32,12 +33,17 @@ stages:
         inputs:
           command: 'build'
           projects: 'src/**/*.csproj'
-          arguments: '-o $(build.artifactStagingDirectory)/out /p:Version=$(GitVersion.SemVer)'
+          arguments: '-o $(build.artifactStagingDirectory)/out /p:PackageVersion=$(GitVersion.FullSemVer)'
           configuration: '$(BuildConfiguration)'
+      - task: DotNetCoreCLI@2
+        displayName: 'Run unit tests'
+        inputs:
+          command: 'test'
+          projects: '**/*/*.Tests.Unit.csproj'
       - task: CopyFiles@2
         displayName: 'Copy nuget.config'
         inputs:
-          SourceFolder: '$(System.DefaultWorkingDirectory)'
+          SourceFolder: '$(System.DefaultWorkingDirectory)/tools/config'
           Contents: 'NuGet.config'
           TargetFolder: '$(build.artifactStagingDirectory)/final'
       - task: CopyFiles@2
@@ -101,7 +107,7 @@ stages:
                 actionOnMissing: 'warn'
                 keepToken: false
                 tokenPrefix: '%'
-                tokenSuffix: '%'   
+                tokenSuffix: '%'
             - script: |
                 dotnet nuget push "*.nupkg" --source "github"
               workingDirectory: '$(Pipeline.Workspace)/nuget'

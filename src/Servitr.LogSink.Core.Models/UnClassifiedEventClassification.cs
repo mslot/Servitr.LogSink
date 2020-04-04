@@ -8,5 +8,6 @@ namespace Servitr.LogSink.Core.Models
         private string _name = "UnClassifiedEvent";
         public int EventId { get => 0; set => _ = 0; }
         public string Name { get => _name; set => _name=value; }
+        public string AreaName { get; set; }
     }
 }

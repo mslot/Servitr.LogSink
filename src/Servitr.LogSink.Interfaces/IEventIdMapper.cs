@@ -6,6 +6,7 @@ namespace Servitr.LogSink.Interfaces
 {
     public interface IEventIdMapper
     {
-        IEventClassification GetEventClassification(string className, string methodName, int area, Exception exception);
+        void AddClassification(string className, string methodName, int areaId, string areaName, Type exceptionType, int eventId, string eventName);
+        IEventClassification GetEventClassification(string className, string methodName, int areaId, Type exceptionType);
     }
 }
