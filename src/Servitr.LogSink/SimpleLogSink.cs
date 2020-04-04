@@ -1,5 +1,4 @@
 ﻿using Servitr.LogSink.Interfaces;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Runtime.CompilerServices;
@@ -8,17 +7,14 @@ namespace Servitr.LogSink
 {
     public class SimpleLogSink : ILogSink
     {
-        private readonly IHostEnvironment _env;
         private readonly ILoggerFactory _loggerFactory;
         private readonly IEventIdMapper _eventIdMapper;
 
         //TODO: Should we tear out the logger factory and make our own factory so other frameworks than Application Insights could be used?
         public SimpleLogSink(
-            IHostEnvironment env,
             ILoggerFactory loggerFactory,
             IEventIdMapper eventIdMapper)
         {
-            _env = env;
             _loggerFactory = loggerFactory;
             _eventIdMapper = eventIdMapper;
         }
