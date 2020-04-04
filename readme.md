@@ -8,6 +8,8 @@ This will _never_ be done, and _shouldn't_ be used for production grade applicat
 
 But if you like this, please clone it, or create some pull requests, that provide further enhancement to the API. It could be fun to follow through.
 
+The most important take away with this project is the baseline setup for library development, that you can use or be inspired by.
+
 # Application Insights
 This project is using application insights, but other logging sources could be used. Please note that application insights has no reserved event id, so I start my count relative high when classifing exceptions, 6000.
 
