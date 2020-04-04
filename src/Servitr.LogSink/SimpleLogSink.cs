@@ -27,7 +27,7 @@ namespace Servitr.LogSink
         {
             var logger = CreateLogger<T>();
             string className = typeof(T).Name;
-            var eventClassification = _eventIdMapper.GetEventClassification(className, "", area, null);
+            var eventClassification = _eventIdMapper.GetEventClassification(className, callerName, area, null);
 
             logger.LogInformation(
                 new EventId(eventClassification.EventId, eventClassification.Name),

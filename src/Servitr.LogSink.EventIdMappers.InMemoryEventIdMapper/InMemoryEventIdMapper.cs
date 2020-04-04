@@ -29,8 +29,19 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
 
         private IEventClassification CreateClassification(string className, string methodName, int areaId, string areaName, Exception exception, int eventId, string eventName)
         {
+            string exceptionName = String.Empty;
+
+            if(exception != null)
+            {
+                exceptionName = nameof(exception);
+            }
+
             return new EventClassification
             {
+                ExceptionName = exceptionName,
+                ClassName = className,
+                MethodName = methodName,
+                AreaId = areaId,
                 EventId = eventId,
                 Name = eventName,
                 AreaName = areaName
@@ -39,7 +50,7 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
 
         private string CalculateKey(string className, string methodName, int area, Exception exception)
         {
-            //TODO: maybe this can be more efficient using StringBuilder? Test it!
+            //TODO: maybe this can be more efficient using StringBuilder?
             string fourthLevelKey = string.Empty;
             string firstLevelKey = className;
             string secondLevelKey = $"{firstLevelKey}{methodName}";
