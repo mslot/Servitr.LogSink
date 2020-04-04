@@ -39,3 +39,6 @@ _logSink.LogInformation<ConsoleService>("Log message {param1} {param2}", new str
 ```
 
 We are talking about 14 characters. But it still pains my eyes that we have to apply `ConsoleService` and new'ing the log argument list (but this is needed if we are going to get the caller name).
+
+# Design of interfaces
+I know that the `Log*` interface contains a lot of optionals, and I know it is bad design, but _this_ isn't a production grade library, and my focus isn't on designing a perfect API. My focus is on experminting with event ids, and trying to get a perfect setup for doing library development. Bear over with me. If I in the future want to make a better design, the optionals is the first I am going to look at erasing, and breaking up.

@@ -4,7 +4,7 @@ This project is intended as a _pure experiment_ and is put into the world so i c
 1. How to create a yaml DevOps pipeline, GitHub pages and nuget repos for library development (and how to use GitVersion properly when branching)
 2. To look more into a setup where I can log with event ids as a central part og an API, and what that potentially could lead to of gains
 
-This will _never_ be done, and _shouldn't_ be used for production grade applications. _Not all Log* methods is supported_.
+This will _never_ be done, and _shouldn't_ be used for production grade applications. _Not all `Log*` methods are supported_. Please also note that I will use this for experimenting, and I will break the API sometimes.
 
 But if you like this, please clone it, or create some pull requests, that provide further enhancements to the API. It could be fun to follow through.
 
