@@ -22,12 +22,25 @@ namespace Servitr.LogSink.TestConsole
             _logSink = logSink;
 
             mapper.AddClassification(nameof(ConsoleService), "StartAsync", 60, "Test", null, 6001, "something_happened");
+            mapper.AddClassification(nameof(ConsoleService), "StartAsync", 60, "Test", typeof(Exception), 6099, "exception_happened");
         }
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Start");
             _logger.LogInformation(new EventId(6001, "name"), "message {param1} {param2}", "this is parameter 1", "this is parameter 2");
             _logSink.LogInformation<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60);
+            
+            try
+            {
+                throw new Exception();
+            }
+            catch(Exception e)
+            {
+                _logSink.LogInformation<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60);
+                _logSink.LogFatal<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60);
+
+            }
+
             await Task.CompletedTask;
         }
 

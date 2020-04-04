@@ -17,23 +17,35 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
             }
         }
 
-        public void AddClassification(string className, string methodName, int areaId, string areaName, Exception exception, int eventId, string eventName)
+        public void AddClassification(string className, string methodName, int areaId, string areaName, Type exceptionType, int eventId, string eventName)
         {
-            string key = CalculateKey(className, methodName, areaId, exception);
+            string key = CalculateKey(className, methodName, areaId, exceptionType);
             if (!_mapper.ContainsKey(key))
             {
-                IEventClassification classification = CreateClassification(className, methodName, areaId, areaName, exception, eventId, eventName);
+                IEventClassification classification = CreateClassification(className, methodName, areaId, areaName, exceptionType, eventId, eventName);
                 _mapper.Add(key, classification);
             }
         }
 
-        private IEventClassification CreateClassification(string className, string methodName, int areaId, string areaName, Exception exception, int eventId, string eventName)
+        public InMemoryEventIdMapper(Dictionary<string, IEventClassification> mapper) : base()
+        {
+            _mapper = mapper;
+        }
+
+        public IEventClassification GetEventClassification(string className, string methodName, int area, Type exceptionType)
+        {
+            IEventClassification classification = LookupEventClassification(className, methodName, area, exceptionType);
+
+            return classification;
+        }
+
+        private IEventClassification CreateClassification(string className, string methodName, int areaId, string areaName, Type exceptionType, int eventId, string eventName)
         {
             string exceptionName = String.Empty;
 
-            if(exception != null)
+            if(exceptionType != null)
             {
-                exceptionName = nameof(exception);
+                exceptionName = nameof(exceptionType);
             }
 
             return new EventClassification
@@ -48,7 +60,7 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
             };
         }
 
-        private string CalculateKey(string className, string methodName, int area, Exception exception)
+        private string CalculateKey(string className, string methodName, int area, Type exceptionType)
         {
             //TODO: maybe this can be more efficient using StringBuilder?
             string fourthLevelKey = string.Empty;
@@ -56,9 +68,9 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
             string secondLevelKey = $"{firstLevelKey}{methodName}";
             string thirdLevelKey = $"{secondLevelKey}{area}";
 
-            if (exception != null)
+            if (exceptionType != null)
             {
-                fourthLevelKey = $"{thirdLevelKey}{nameof(exception)}";
+                fourthLevelKey = $"{thirdLevelKey}{exceptionType.Name}";
             }
             else
             {
@@ -68,33 +80,21 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
             return fourthLevelKey;
         }
 
-        public InMemoryEventIdMapper(Dictionary<string, IEventClassification> mapper) : base()
-        {
-            _mapper = mapper;
-        }
-
-        public IEventClassification GetEventClassification(string className, string methodName, int area, Exception exception)
-        {
-            IEventClassification classification = LookupEventClassification(className, methodName, area, exception);
-
-            return classification;
-        }
-
         private IEventClassification LookupEventClassification(
             string className,
             string methodName,
             int area,
-            Exception exception)
+            Type exceptionType)
         {
-            string key = CalculateKey(className, methodName, area, exception);
+            string key = CalculateKey(className, methodName, area, exceptionType);
             if(!_mapper.TryGetValue(key, out IEventClassification resolvedClassification))
             {
                 resolvedClassification = new UnClassifiedEventClassification();
             }
 
-            if (exception != null &&
+            if (exceptionType != null &&
                 resolvedClassification is UnClassifiedEventClassification)
-                resolvedClassification = new UnclassifiedExceptionEventClassification(exception);
+                resolvedClassification = new UnclassifiedExceptionEventClassification(exceptionType);
 
             return resolvedClassification;
         }
