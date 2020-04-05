@@ -17,6 +17,7 @@ namespace Servitr.LogSink.Tests.Unit.InMemoeryEventIdMapperClassTest
                 //Without exceptions
                 _mapper.AddClassification(className: "classname1", methodName: "methodname1", areaId: 1,
                     areaName: "area", exceptionType: null, 6001, "eventname 1");
+
                 _mapper.AddClassification(className: "classname2", methodName: "methodname2", areaId: 1,
                     areaName: "area", exceptionType: null, 6002, "eventname 2");
 
