@@ -37,7 +37,7 @@ stages:
         inputs:
           command: 'build'
           projects: 'src/**/*.csproj'
-          arguments: '-o $(build.artifactStagingDirectory)/out /p:PackageVersion=$(GitVersion.NuGetVersionV2)-$(GitVersion.ShortSha)'
+          arguments: '-o $(build.artifactStagingDirectory)/out /p:PackageVersion=$(GitVersion.NuGetVersionV2)'
           configuration: '$(BuildConfiguration)'
       - task: DotNetCoreCLI@2
         displayName: 'Run unit tests'
