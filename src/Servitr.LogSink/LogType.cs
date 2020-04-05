@@ -2,11 +2,11 @@
 {
     enum LogType
     {
-        Information,
-        Error,
         Trace,
-        Critical,
         Debug,
-        Warning
+        Information,
+        Warning,
+        Error,
+        Critical,
     }
 }
