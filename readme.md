@@ -13,6 +13,9 @@ The two most important take away with this project is:
 1. the baseline setup for library development, that you can use or be inspired by (read more about that [here](https://logsink.servitr.io))
 2. use event ids: it eases the debugging experience and bug hunting for the people doing that in their day to day job. It is much easier to search for event id 5000 (if that event is releated to errors writing a report) than to a random log message eg "give me events with messages containing words "report", and "writing"). Log messages can changes. Event id don't (or shouldn't)
 
+## Multiple projects vs single project
+From 0.1.0 to 0.4.0 I tried to build a nuget package for each library, but that changed from 0.5.0, where only Servitr.LogSink is packaged and published. It doesn't make sense to provide several packages when only one is needed. If you want to provide your own `EventIdMapper` then you need to get hold of the `Servitr.LogSink` package. In the future, if people want it, I can split the `EventIdMapper` out in a completely seperate repo so it doesn't follow the versioning of `Servitr.LogSink`.
+
 ## Naming
 I needed a name, so I went with `LogSink`. Not the best, not the worst. Feel free to contact me if you have a better one, and I will consider.
 
@@ -32,6 +35,9 @@ And it wont (or shouldn't) affect if a developer changes the wording of a messag
 
 # Documentation
 Documentation and example can be found at [here](https://logsink.servitr.io).
+
+## Install
+Read more [here](https://logsink.servitr.io).
 
 ## Call convention
 The call convention might seem a bit more complicated and longer, but please have in mind that we have `EventId` in focus, so there is actually not that much difference:

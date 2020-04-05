@@ -22,7 +22,7 @@ I haven't yet set up a seperate account for my nuget packages, so they are going
 This project is using application insights, but other logging sources could be used. Please note that application insights has no reserved event id numbers, personally I start my count relative high when classifing events: 6000. 
 
 # Example of use
-A compact example is included in the repo, in the `TestConsole.ConsoleService`
+A compact example is included in the repo, in the `TestConsole.ConsoleService`:
 
 ```csharp
 using Microsoft.Extensions.Hosting;
@@ -79,6 +79,31 @@ namespace Servitr.LogSink.TestConsole
 }
 
 ```
+
+## Install
+Create a personal token for your [github account](https://github.com/settings/tokens) with the read:packages scope. SAVE THE TOKEN. Then add a NuGet.config to your project root (same level as your solution):
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <packageSources>
+        <clear />
+        <add key="nuget.org" value="https://api.nuget.org/v3/index.json"/>
+        <add key="github" value="https://nuget.pkg.github.com/mslot/index.json" />
+    </packageSources>
+    <packageSourceCredentials>
+        <github>
+            <add key="Username" value="[YOUR_USERNAME]" />
+            <add key="ClearTextPassword" value="[SAVED_TOKEN]" />
+        </github>
+    </packageSourceCredentials>
+</configuration>
+
+```
+
+Remember that it is your _username_, _not your email_. After that cd to where your csproj file is that is going to have a reference to the `Servitr.LogSink` library and add the nuget `dotnet add [your_project_name].csproj package Servitr.LogSink --version [latest_version]`.
+
+As of today this can't be done through the Visual Studio UI. Remember to not add the NuGet.config to git (it contains sensitive information). There is other ways to keep that out of the NuGet.config. Read more [here](https://docs.microsoft.com/en-us/nuget/reference/nuget-config-file#using-environment-variables).
 
 ## Call convention
 The call convention might seem a bit more complicated and longer, but please have in mind that we have `EventId` in focus, so there is actually not that much difference:
