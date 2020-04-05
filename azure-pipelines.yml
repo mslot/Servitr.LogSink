@@ -22,6 +22,7 @@ stages:
         inputs:
           runtime: 'core'
           configFilePath: 'tools/config/GitVersion.yml'
+          updateAssemblyInfo: true
       - task: DotNetCoreCLI@2
         displayName: "Restore"
         inputs:
