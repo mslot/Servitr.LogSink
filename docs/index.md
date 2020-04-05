@@ -103,7 +103,7 @@ Create a personal token for your [github account](https://github.com/settings/to
 
 Remember that it is your _username_, _not your email_. After that cd to where your csproj file is that is going to have a reference to the `Servitr.LogSink` library and add the nuget `dotnet add [your_project_name].csproj package Servitr.LogSink --version [latest_version]`.
 
-As of today this can't be done through the Visual Studio UI. Remember to not add the NuGet.config to git (it contains sensitive information). There is other ways to keep that out of the NuGet.config. Read more [here](https://docs.microsoft.com/en-us/nuget/reference/nuget-config-file#using-environment-variables).
+As of today this can't be done through the Visual Studio UI. Remember to not add the NuGet.config to git (it contains sensitive information). There is other ways to keep that out of the NuGet.config. Read more [here](https://docs.microsoft.com/en-us/nuget/reference/nuget-config-file#using-environment-variables). I think it is possible, after you have added the package once from the commandline, to update it from the Visual Studio UI.
 
 ## Call convention
 The call convention might seem a bit more complicated and longer, but please have in mind that we have `EventId` in focus, so there is actually not that much difference:
