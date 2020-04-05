@@ -1,5 +1,4 @@
 ﻿using Servitr.LogSink.Interfaces;
-using System;
 
 namespace Servitr.LogSink.Core.Models
 {
