@@ -7,7 +7,7 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
 {
     public class InMemoryEventIdMapper : IEventIdMapper
     {
-        private Dictionary<string, IEventClassification> _mapper;
+        private readonly Dictionary<string, IEventClassification> _mapper;
 
         public InMemoryEventIdMapper()
         {
