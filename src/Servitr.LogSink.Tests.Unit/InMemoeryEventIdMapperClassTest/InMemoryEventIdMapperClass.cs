@@ -9,7 +9,7 @@ namespace Servitr.LogSink.Tests.Unit.InMemoeryEventIdMapperClassTest
     {
         public class GetEventClassificationMethod
         {
-            private InMemoryEventIdMapper _mapper;
+            private readonly InMemoryEventIdMapper _mapper;
             public GetEventClassificationMethod()
             {
                 _mapper = new InMemoryEventIdMapper();
