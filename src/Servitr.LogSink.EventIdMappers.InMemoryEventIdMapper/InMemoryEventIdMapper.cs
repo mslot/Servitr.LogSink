@@ -43,7 +43,7 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
         {
             string exceptionName = String.Empty;
 
-            if(exceptionType != null)
+            if (exceptionType != null)
             {
                 exceptionName = nameof(exceptionType);
             }
@@ -87,7 +87,7 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
             Type exceptionType)
         {
             string key = CalculateKey(className, methodName, area, exceptionType);
-            if(!_mapper.TryGetValue(key, out IEventClassification resolvedClassification))
+            if (!_mapper.TryGetValue(key, out IEventClassification resolvedClassification))
             {
                 resolvedClassification = new UnClassifiedEventClassification();
             }
