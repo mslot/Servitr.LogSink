@@ -22,7 +22,7 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
             string key = CalculateKey(className, methodName, areaId, exceptionType);
             if (!_mapper.ContainsKey(key))
             {
-                IEventClassification classification = CreateClassification(className, methodName, areaId, areaName, exceptionType, eventId, eventName);
+                var classification = CreateClassification(className, methodName, areaId, areaName, exceptionType, eventId, eventName);
                 _mapper.Add(key, classification);
             }
         }
