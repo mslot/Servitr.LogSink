@@ -87,6 +87,7 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
             Type exceptionType)
         {
             string key = CalculateKey(className, methodName, area, exceptionType);
+
             if(!_mapper.TryGetValue(key, out IEventClassification resolvedClassification))
             {
                 resolvedClassification = new UnClassifiedEventClassification();
@@ -94,7 +95,9 @@ namespace Servitr.LogSink.EventIdMappers.InMemoryEventIdMapper
 
             if (exceptionType != null &&
                 resolvedClassification is UnClassifiedEventClassification)
+            {
                 resolvedClassification = new UnclassifiedExceptionEventClassification(exceptionType);
+            }
 
             return resolvedClassification;
         }
