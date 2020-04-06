@@ -113,4 +113,4 @@ _logger.LogInformation(new EventId(6001, "name"), "message {param1} {param2}", "
 _logSink.LogInformation<ConsoleService>("Log message {param1} {param2}", new string[] { "this is parameter 1", "this is parameter 2" }, 60);
 ```
 
-We are talking about 14 characters. But it still pains my eyes that we have to apply `ConsoleService` and new'ing the log argument list (but this is needed if we are going to get the caller name).
+We are talking about 14 characters. It still pains my eyes that we have to apply `ConsoleService` and new'ing the log argument list (but this is needed if we are going to get the caller name). We just have to live with that.
