@@ -27,12 +27,6 @@ stages:
           configFilePath: 'tools/config/GitVersion.yml'
           updateAssemblyInfo: true
       - task: DotNetCoreCLI@2
-        displayName: "Restore"
-        inputs:
-          command: 'restore'
-          projects: 'src/**/*.csproj'
-          feedsToUse: 'select'
-      - task: DotNetCoreCLI@2
         displayName: "Build"
         inputs:
           command: 'build'
